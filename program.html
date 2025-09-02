@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Power of Four Visualizer</title>
+    <!-- Inter font from Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3f4f6;
+        }
+        .container {
+            max-width: 1000px;
+        }
+        .section-card {
+            background-color: white;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        }
+        .btn {
+            @apply px-6 py-3 font-semibold text-white transition duration-300 transform bg-indigo-600 rounded-full hover:bg-indigo-700 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+        }
+        .input-field {
+            @apply w-full px-4 py-3 text-gray-800 placeholder-gray-400 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300;
+        }
+        .code-block {
+            background-color: #1f2937;
+            color: #d1d5db;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            overflow-x: auto;
+        }
+        .case-box {
+            @apply flex flex-col items-center justify-center p-4 text-center bg-gray-100 rounded-lg;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-8">
+    <div class="container mx-auto p-4 md:p-8">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Power of Four Algorithm Visualizer</h1>
+            <p class="text-lg text-gray-600">Explore different methods to check if a number is a power of four.</p>
+        </header>
+
+        <!-- The Problem & Introduction -->
+        <section class="section-card mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">The Problem: What is a Power of Four?</h2>
+            <p class="text-gray-700 leading-relaxed mb-4">A number `n` is a power of four if it can be expressed as $n = 4^x$, where $x$ is an integer. For example, 16 is a power of four because $16 = 4^2$. Let's explore three different algorithms to solve this problem, from a simple brute-force approach to a highly optimized bit manipulation method.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm font-medium text-gray-600">
+                <div class="case-box">
+                    <span class="text-2xl font-bold text-green-600">64</span>
+                    <p>Correct: $4^3$</p>
+                </div>
+                <div class="case-box">
+                    <span class="text-2xl font-bold text-red-600">20</span>
+                    <p>Incorrect</p>
+                </div>
+                <div class="case-box">
+                    <span class="text-2xl font-bold text-red-600">15</span>
+                    <p>Incorrect</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Brute-Force Approach Section -->
+        <section class="section-card mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Approach 1: Brute-Force (Iterative Division)</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">The simplest way is to repeatedly divide the number by 4 until it's either 1 or not divisible by 4. If the final number is 1, it's a power of four.</p>
+            
+            <div class="mb-6 flex flex-col md:flex-row items-center gap-4">
+                <input type="number" id="numberInput" placeholder="Enter a number (e.g., 64)" class="input-field flex-grow" min="1">
+                <button id="runBtn" class="btn">Run Visualizer</button>
+            </div>
+            
+            <div id="visualizerOutput" class="bg-gray-100 rounded-lg p-6 min-h-[150px] flex flex-col justify-center items-center text-center transition-all duration-300">
+                <p class="text-gray-500 italic">Enter a number and click 'Run' to see the steps.</p>
+            </div>
+
+            <h3 class="text-xl font-bold text-gray-800 mt-8 mb-4">Code Implementation</h3>
+            <div class="code-block">
+                <pre><code>
+int isPowerOfFour(int n) {
+    if (n <= 0) {
+        return 0; // Negative or zero numbers are not powers of four
+    }
+    while (n % 4 == 0) {
+        n /= 4;
+    }
+    return n == 1; // If n becomes 1, it's a power of four
+}
+                </code></pre>
+            </div>
+        </section>
+        
+        <!-- Time Complexity Section -->
+        <section class="section-card mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Time Complexity: $O(log_4 n)$</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">The time complexity for the brute-force approach is $O(log_4 n)$. This is because for every step, the number `n` is divided by 4, which means the number of iterations grows logarithmically, not linearly. This makes the algorithm very efficient, even for extremely large numbers.</p>
+        </section>
+
+        <!-- Optimal Approaches Section -->
+        <section class="section-card mb-12">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Optimal Approaches</h2>
+            <p class="text-gray-700 leading-relaxed mb-6">These methods solve the problem in constant time using mathematical properties and bit manipulation, making them even faster.</p>
+
+            <!-- Logarithm Approach -->
+            <div class="mb-8">
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Approach 2: Logarithm</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">A number `n` is a power of four if and only if $log_4(n)$ is an integer. In most programming languages, you can check this by dividing the base-10 logarithm of `n` by the base-10 logarithm of 4 and checking if the result is an integer.</p>
+                <div id="logOutput" class="bg-gray-100 rounded-lg p-4 text-gray-800">
+                    <span class="text-gray-500 italic">Enter a number above to see the calculation.</span>
+                </div>
+            </div>
+
+            <!-- Bit Manipulation Approach -->
+            <div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">Approach 3: Bit Manipulation (The Fastest Way)</h3>
+                <p class="text-gray-700 leading-relaxed mb-4">This is the most efficient method and relies on two key properties of powers of four in binary:</p>
+                <ol class="list-decimal list-inside text-gray-700 space-y-2 mb-4">
+                    <li>It must be a positive number and a power of two. A number `n` is a power of two if `n > 0` and `(n & (n-1)) == 0`. This means it has only a single `1` bit in its binary representation.</li>
+                    <li>The single `1` bit must be in an even position (0-indexed). This can be checked with a bitwise AND operation with the hexadecimal mask `0x55555555`. The binary for this mask is `01010101...`, which has `1`s only in the even positions.</li>
+                </ol>
+                <div id="bitOutput" class="bg-gray-100 rounded-lg p-4 text-gray-800">
+                    <span class="text-gray-500 italic">Enter a number above to see the bitwise check.</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Conclusion -->
+        <section class="section-card">
+            <h2 class="text-2xl font-bold text-gray-800 mb-4">Conclusion</h2>
+            <p class="text-gray-700 leading-relaxed">The brute-force method is easy to understand and has good performance. The logarithm approach is a good mathematical alternative. However, for maximum efficiency, the bit manipulation approach is the best as it performs constant-time checks, without the overhead of division or floating-point calculations.</p>
+        </section>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const numberInput = document.getElementById('numberInput');
+            const runBtn = document.getElementById('runBtn');
+            const visualizerOutput = document.getElementById('visualizerOutput');
+            const logOutput = document.getElementById('logOutput');
+            const bitOutput = document.getElementById('bitOutput');
+
+            // Function to perform the step-by-step brute-force visualization
+            const visualizeBruteForce = (num) => {
+                visualizerOutput.innerHTML = `
+                    <div class="w-full text-center">
+                        <p class="text-lg font-bold mb-2">Starting with n = ${num}</p>
+                        <div id="steps" class="space-y-2"></div>
+                        <div id="result" class="mt-4 font-semibold text-lg"></div>
+                    </div>
+                `;
+                const stepsContainer = document.getElementById('steps');
+                const resultContainer = document.getElementById('result');
+                let currentNum = num;
+                let step = 0;
+
+                const interval = setInterval(() => {
+                    if (currentNum <= 0 || currentNum % 4 !== 0) {
+                        clearInterval(interval);
+                        if (currentNum === 1) {
+                            resultContainer.innerHTML = `<span class="text-green-600">Success! ${num} is a power of four.</span>`;
+                        } else {
+                            resultContainer.innerHTML = `<span class="text-red-600">Failed. Final number is ${currentNum}, not 1.</span>`;
+                        }
+                        return;
+                    }
+
+                    const stepElement = document.createElement('p');
+                    stepElement.className = 'text-gray-600 text-sm';
+                    stepElement.textContent = `Step ${++step}: ${currentNum} / 4 = ${currentNum / 4}`;
+                    stepsContainer.appendChild(stepElement);
+
+                    currentNum /= 4;
+                }, 1500); // 1.5 seconds delay between steps
+            };
+
+            // Function to perform logarithm and bit manipulation checks
+            const runChecks = (num) => {
+                // Logarithm Check
+                const logResult = Math.log(num) / Math.log(4);
+                const isInteger = Number.isInteger(logResult);
+                logOutput.innerHTML = `
+                    <p class="mb-2">Calculation: $log_4(${num}) = \\frac{log(${num})}{log(4)} \\approx ${logResult.toFixed(4)}$</p>
+                    <p>Result: <span class="${isInteger ? 'text-green-600' : 'text-red-600'} font-bold">${isInteger ? 'Is an integer' : 'Is not an integer'}</span>. Therefore, it is <span class="font-bold">${isInteger ? '' : 'not'}</span> a power of four.</p>
+                `;
+
+                // Bit Manipulation Check
+                const isPowerOfTwo = (num > 0) && ((num & (num - 1)) === 0);
+                const isPowerOfFourBitwise = (num > 0) && ((num & (num - 1)) === 0) && ((num & 0x55555555) !== 0);
+
+                const binaryN = num.toString(2);
+                const binaryNMinus1 = (num - 1).toString(2).padStart(binaryN.length, '0');
+                const binaryMask = '01010101010101010101010101010101'; // 32-bit representation
+
+                bitOutput.innerHTML = `
+                    <h4 class="font-semibold text-lg mb-2">Step 1: Is it a power of two?</h4>
+                    <pre class="code-block mb-4">
+    n           = ${binaryN}
+    n - 1       = ${binaryNMinus1}
+    (n & (n-1)) = ${(num & (num-1)).toString(2).padStart(binaryN.length, '0')}
+    Result: <span class="${isPowerOfTwo ? 'text-green-400' : 'text-red-400'}">${isPowerOfTwo ? 'True' : 'False'}</span> (Single '1' bit)
+                    </pre>
+
+                    <h4 class="font-semibold text-lg mb-2">Step 2: Is the '1' bit in an even position?</h4>
+                    <pre class="code-block">
+    n           = ${binaryN.padStart(32, '0')}
+    mask        = ${binaryMask.slice(-binaryN.length).padStart(binaryN.length, '0')}
+    (n & mask)  = ${(num & 0x55555555).toString(2).padStart(binaryN.length, '0')}
+    Result: <span class="${isPowerOfFourBitwise ? 'text-green-400' : 'text-red-400'}">${(num & 0x55555555) !== 0 ? 'True' : 'False'}</span> (Result is not zero)
+                    </pre>
+                `;
+            };
+
+            // Event listener for the "Run Visualizer" button
+            runBtn.addEventListener('click', () => {
+                const num = parseInt(numberInput.value, 10);
+                if (isNaN(num) || num <= 0) {
+                    visualizerOutput.innerHTML = `<span class="text-red-500 font-bold">Please enter a positive number.</span>`;
+                    return;
+                }
+                
+                // Clear previous output
+                visualizerOutput.innerHTML = '';
+                logOutput.innerHTML = '';
+                bitOutput.innerHTML = '';
+
+                // Run all visualizations
+                visualizeBruteForce(num);
+                runChecks(num);
+            });
+        });
+    </script>
+</body>
+</html>
