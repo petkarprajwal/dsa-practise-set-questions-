@@ -1,0 +1,66 @@
+#include<iostream>
+#include<list>
+using namespace std;
+
+//Fast and slow pointer approach to find middle element of linked list
+class Node{
+    public:
+    int data;
+    Node* link;
+    Node(int val){
+        data=val;
+        link=NULL;
+    }
+};
+class List{
+ public:
+    Node* head;
+    Node* tail;
+    public:
+           List(){
+            head=NULL;
+            tail=NULL;
+           }
+
+           //push element at the front
+           void push_front(int val){
+            Node* a=new Node(val);
+            if(head==NULL){
+                head=tail=a;
+            }
+            else{
+                a->link=head;
+                head=a;
+            }
+           }
+           Node* fast_slow_pointer(){
+            Node* slow=head;
+            Node* fast=head;
+            if(head==NULL){
+                cout<<"no element in the list"<<endl;
+                return NULL;
+            }
+            while(fast!=NULL && fast->link!=NULL){
+                slow=slow->link;
+                fast=fast->link->link;
+            }
+            return slow;
+           } 
+};
+int main(){
+    List l;
+    l.push_front(1);
+    l.push_front(2);
+    l.push_front(3);
+    l.push_front(4);
+    l.push_front(5);
+    Node* mid=l.fast_slow_pointer();
+    if(mid!=NULL){
+        cout<<"the middle element is="<<mid->data<<endl;
+    }
+    return 0;
+}
+
+          
+       
+         
